@@ -1,33 +1,28 @@
-# laravel SweetAlert
+# Laravel SweetAlert
 
-## Installation
+### In active development, please do not report issues until the project is considered stable.
 
-First, pull in the package through Composer.
+This package integrates Twig with the standard Laravel 5 view framework. The package is based on [Easy Sweet Alert Messages for Laravel](https://github.com/uxweb/sweet-alert) by [Uziel Bueno](https://github.com/uxweb) but has been modified and refactored for our requirements.
+
+## Install
+
+First, install the package using Composer:
 
 ```
-    composer require synergitech/sweetalert
+composer require synergitech/sweetalert
 ```
 
-> Note that this package works only by using the [SweetAlert](http://t4t5.github.io/sweetalert/).
+> Please note that this package works only alongside [SweetAlert](http://t4t5.github.io/sweetalert/).
 
 ## Usage
 
-### Using the Facade
+### Facade
 
-First import the Alert facade in your controller.
+First, import the Alert facade into your controller.
 ```php
 use Alert;
 ```
-Within your controllers, before you perform a redirect...
-
-```php
-public function store()
-{
-    Alert::message('Robots are working!');
-
-    return Redirect::home();
-}
-```
+Then, use the facade methods to add your message.
 
 - `Alert::message('Message', 'Optional Title');`
 - `Alert::basic('Basic Message', 'Mandatory Title');`
@@ -36,16 +31,9 @@ public function store()
 - `Alert::error('Error Message', 'Optional Title');`
 - `Alert::warning('Warning Message', 'Optional Title');`
 
-### Using the helper function
+### Helper Function
 
-- `alert($message = null, $title = '')`
-
-In addition to the previous listed methods you can also just use the helper
-function without specifying any message type. Doing so is similar to:
-
-- `alert()->message('Message', 'Optional Title')`
-
-Like with the Facade we can use the helper with the same methods:
+The helper supports the same methods as the facade.
 
 - `alert()->message('Message', 'Optional Title');`
 - `alert()->basic('Basic Message', 'Mandatory Title');`
@@ -55,50 +43,11 @@ Like with the Facade we can use the helper with the same methods:
 - `alert()->warning('Warning Message', 'Optional Title');`
 - `alert()->basic('Basic Message', 'Mandatory Title')->autoclose(3500);`
 
-Within your controllers, before you perform a redirect...
+For a generic alert, you can just use `alert('Message')`, which has the same outcome as `alert()->message('Message')`.
 
-```php
-/**
- * Destroy the user's session (logout).
- *
- * @return Response
- */
-public function destroy()
-{
-    Auth::logout();
+### Rendering
 
-    alert()->success('You have been logged out.', 'Good bye!');
-
-    return home();
-}
-```
-
-For a general information alert, just do: `alert('Some message');` (same as `alert()->message('Some message');`).
-
-### Final Considerations
-You can render html in your message with the html() method like this:
-
-```php
-    // -> html will be evaluated
-    alert('<a href="#">Click me</a>')->html()->persistent("No, thanks");
-```
-
-### Configuration Options
-
-You have access to the following configuration options to build a custom view:
-
-    Session::get('sweetalert.text')
-    Session::get('sweetalert.type')
-    Session::get('sweetalert.title')
-    Session::get('sweetalert.confirmButtonText')
-    Session::get('sweetalert.showConfirmButton')
-    Session::get('sweetalert.allowOutsideClick')
-    Session::get('sweetalert.timer')
-
-Please check the CONFIGURATION section in the [website](http://t4t5.github.io/sweetalert/) for all other options available.
-
-### Default View
-
+#### Blade
 ```html
 @if (Session::has('sweetalert.alert'))
     <script>
@@ -107,12 +56,20 @@ Please check the CONFIGURATION section in the [website](http://t4t5.github.io/sw
 @endif
 ```
 
-The `sweetalert.alert` session key contains a JSON configuration object to pass it directly to Sweet Alert.
+#### Twig
+```html
+{% if session_has('sweetalert.alert') %}
+    <script>
+        swal({{ session_get('sweetalert.alert')|raw }});
+    </script>
+{% endif %}
+```
 
-Note that `{!! !!}` are used to output the json configuration object unescaped, it will not work with `{{ }}` escaped output tags.
+The `sweetalert.alert` session key contains a JSON configuration object which can be passed directly to SweetAlert.
 
-### Custom View
+### Advanced Rendering
 
+#### Blade
 ```html
 @if (Session::has('sweetalert.alert'))
     <script>
@@ -124,11 +81,24 @@ Note that `{!! !!}` are used to output the json configuration object unescaped, 
             showConfirmButton: "{!! Session::get('sweetalert.showConfirmButton') !!}",
             confirmButtonText: "{!! Session::get('sweetalert.confirmButtonText') !!}",
             confirmButtonColor: "#AEDEF4"
-
-            // more options
         });
     </script>
 @endif
 ```
 
-Note that you must use `""` (double quotes) to wrap the values except for the timer option.
+#### Twig
+```html
+{% if session_has('sweetalert.alert') %}
+    <script>
+        swal({
+            text: "{{ Session::get('sweetalert.text')|raw }}",
+            title: "{{ Session::get('sweetalert.title')|raw }}",
+            timer: {{ Session::get('sweetalert.timer')|raw }},
+            type: "{{ Session::get('sweetalert.type')|raw }}",
+            showConfirmButton: "{{ Session::get('sweetalert.showConfirmButton')|raw }}",
+            confirmButtonText: "{{ Session::get('sweetalert.confirmButtonText')|raw }}",
+            confirmButtonColor: "#AEDEF4"
+        });
+    </script>
+{% endif %}
+```
