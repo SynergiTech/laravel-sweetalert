@@ -1,6 +1,6 @@
 <?php
 
-namespace UxWeb\SweetAlert;
+namespace SynergiTech\SweetAlert;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -14,31 +14,12 @@ class SweetAlertServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            'UxWeb\SweetAlert\SessionStore',
-            'UxWeb\SweetAlert\LaravelSessionStore'
+            'SynergiTech\SweetAlert\SessionStore',
+            'SynergiTech\SweetAlert\LaravelSessionStore'
         );
 
-        $this->app->singleton('uxweb.sweet-alert', function () {
-            return $this->app->make('UxWeb\SweetAlert\SweetAlertNotifier');
+        $this->app->singleton('synergitech.sweetalert', function () {
+            return $this->app->make('SynergiTech\SweetAlert\SweetAlertNotifier');
         });
-
-        config([
-            'config/sweet-alert.php',
-        ]);
-    }
-
-    /**
-     * Bootstrap the application events.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->loadViewsFrom(__DIR__.'/../views', 'sweet');
-
-        $this->publishes([
-            __DIR__.'/../views' => base_path('resources/views/vendor/sweet'),
-            __DIR__.'/../config/sweet-alert.php' => config_path('sweet-alert.php'),
-        ]);
     }
 }

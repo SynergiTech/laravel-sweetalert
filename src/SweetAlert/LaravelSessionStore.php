@@ -1,6 +1,6 @@
 <?php
 
-namespace UxWeb\SweetAlert;
+namespace SynergiTech\SweetAlert;
 
 use Illuminate\Session\Store;
 

@@ -1,6 +1,6 @@
 {
-    "name": "uxweb/sweet-alert",
-    "description": "A simple PHP package to show Sweet Alerts with the Laravel Framework",
+    "name": "synergitech/laravel-sweetalert",
+    "description": "A PHP package to show Sweet Alerts with the Laravel Framework",
     "keywords": ["laravel", "alert", "sweet", "notifier"],
     "license": "MIT",
     "authors": [
@@ -10,29 +10,25 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=7.0.0",
         "illuminate/support": "~5.0",
         "illuminate/session": "~5.0"
     },
     "autoload": {
         "psr-4": {
-            "UxWeb\\SweetAlert\\": "src/SweetAlert/"
+            "SynergiTech\\SweetAlert\\": "src/SweetAlert/"
         },
         "files": [
           "src/SweetAlert/functions.php"
         ]
     },
-    "require-dev": {
-        "phpunit/phpunit": "^6.0",
-        "mockery/mockery": "0.9.*"
-    },
     "extra": {
         "laravel": {
             "providers": [
-                "UxWeb\\SweetAlert\\SweetAlertServiceProvider"
+                "SynergiTech\\SweetAlert\\SweetAlertServiceProvider"
             ],
             "aliases": {
-                "Alert": "UxWeb\\SweetAlert\\SweetAlert"
+                "Alert": "SynergiTech\\SweetAlert\\SweetAlert"
             }
         }
     }

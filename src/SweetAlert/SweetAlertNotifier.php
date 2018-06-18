@@ -1,11 +1,11 @@
 <?php
 
-namespace UxWeb\SweetAlert;
+namespace SynergiTech\SweetAlert;
 
 class SweetAlertNotifier
 {
     /**
-     * @var \UxWeb\SweetAlert\SessionStore
+     * @var \SynergiTech\SweetAlert\SessionStore
      */
     protected $session;
 
@@ -19,7 +19,7 @@ class SweetAlertNotifier
     /**
      * Create a new SweetAlertNotifier instance.
      *
-     * @param \UxWeb\SweetAlert\SessionStore $session
+     * @param \SynergiTech\SweetAlert\SessionStore $session
      */
     public function __construct(SessionStore $session)
     {
@@ -36,10 +36,9 @@ class SweetAlertNotifier
     protected function setDefaultConfig()
     {
         $this->config = [
-            'timer'             => config('sweet-alert.autoclose', 1800),
             'title'             => '',
             'text'              => '',
-            'showConfirmButton' => false,
+            'showConfirmButton' => true,
         ];
     }
 
@@ -52,7 +51,7 @@ class SweetAlertNotifier
      * @param string $type
      * @param string $title
      *
-     * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+     * @return \SynergiTech\SweetAlert\SweetAlertNotifier $this
      */
     public function message($text, $title = '', $type = null)
     {
@@ -74,7 +73,7 @@ class SweetAlertNotifier
      * @param string $text
      * @param string $title
      *
-     * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+     * @return \SynergiTech\SweetAlert\SweetAlertNotifier $this
      */
     public function basic($text, $title)
     {
@@ -89,7 +88,7 @@ class SweetAlertNotifier
      * @param string $text
      * @param string $title
      *
-     * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+     * @return \SynergiTech\SweetAlert\SweetAlertNotifier $this
      */
     public function info($text, $title = '')
     {
@@ -104,7 +103,7 @@ class SweetAlertNotifier
      * @param string $text
      * @param string $title
      *
-     * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+     * @return \SynergiTech\SweetAlert\SweetAlertNotifier $this
      */
     public function success($text, $title = '')
     {
@@ -119,7 +118,7 @@ class SweetAlertNotifier
      * @param string $text
      * @param string $title
      *
-     * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+     * @return \SynergiTech\SweetAlert\SweetAlertNotifier $this
      */
     public function error($text, $title = '')
     {
@@ -134,7 +133,7 @@ class SweetAlertNotifier
      * @param string $text
      * @param string $title
      *
-     * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+     * @return \SynergiTech\SweetAlert\SweetAlertNotifier $this
      */
     public function warning($text, $title = '')
     {
@@ -148,7 +147,7 @@ class SweetAlertNotifier
      *
      * @param int $milliseconds
      *
-     * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+     * @return \SynergiTech\SweetAlert\SweetAlertNotifier $this
      */
     public function autoclose($milliseconds = null)
     {
@@ -162,70 +161,11 @@ class SweetAlertNotifier
     }
 
     /**
-     * Add a confirmation button to the alert.
-     *
-     * @param string $buttonText
-     *
-     * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-     */
-    public function confirmButton($buttonText = 'OK')
-    {
-        $this->config['confirmButtonText'] = $buttonText;
-        $this->config['showConfirmButton'] = true;
-        $this->config['allowOutsideClick'] = false;
-        $this->removeTimer();
-        $this->flashConfig();
-
-        return $this;
-    }
-
-    public function cancelButton($buttonText = 'Cancel')
-    {
-        $this->config['showCancelButton'] = true;
-        $this->config['cancelButtonText'] = $buttonText;
-        $this->config['allowOutsideClick'] = false;
-        $this->removeTimer();
-        $this->flashConfig();
-
-        return $this;
-    }
-
-    /**
-     * Make this alert persistent with a confirmation button.
-     *
-     * @param string $buttonText
-     *
-     * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
-     */
-    public function persistent($buttonText = 'OK')
-    {
-        $this->config['showConfirmButton'] = true;
-        $this->config['confirmButtonText'] = $buttonText;
-        $this->config['allowOutsideClick'] = false;
-        $this->removeTimer();
-        $this->flashConfig();
-
-        return $this;
-    }
-
-    /**
-     * Remove the timer config option.
-     *
-     * @return void
-     */
-    protected function removeTimer()
-    {
-        if (array_key_exists('timer', $this->config)) {
-            unset($this->config['timer']);
-        }
-    }
-
-    /**
      * Make Message HTML view.
      *
      * @param bool|true $html
      *
-     * @return \UxWeb\SweetAlert\SweetAlertNotifier $this
+     * @return \SynergiTech\SweetAlert\SweetAlertNotifier $this
      */
     public function html()
     {
@@ -244,10 +184,10 @@ class SweetAlertNotifier
     protected function flashConfig()
     {
         foreach ($this->config as $key => $value) {
-            $this->session->flash("sweet_alert.{$key}", $value);
+            $this->session->flash("sweetalert.{$key}", $value);
         }
 
-        $this->session->flash('sweet_alert.alert', $this->buildJsonConfig());
+        $this->session->flash('sweetalert.alert', $this->buildJsonConfig());
     }
 
     /**
