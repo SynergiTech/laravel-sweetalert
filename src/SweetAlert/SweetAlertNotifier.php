@@ -184,10 +184,9 @@ class SweetAlertNotifier
     protected function flashConfig()
     {
         foreach ($this->config as $key => $value) {
-            $this->session->flash("sweetalert.{$key}", $value);
+            $this->session->put("sweetalert.{$key}", $value);
         }
-
-        $this->session->flash('sweetalert.alert', $this->buildJsonConfig());
+        $this->session->put('sweetalert.alert', $this->buildJsonConfig());
     }
 
     /**

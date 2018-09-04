@@ -26,4 +26,15 @@ class LaravelSessionStore implements SessionStore
     {
         $this->session->flash($name, $data);
     }
+
+    /**
+     * Put some data into the session.
+     *
+     * @param $name
+     * @param $data
+     */
+    public function put($name, $data)
+    {
+        $this->session->put($name, $data);
+    }
 }
