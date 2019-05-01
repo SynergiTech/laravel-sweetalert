@@ -1,6 +1,6 @@
 # Laravel SweetAlert
 
-### In active development, please do not report issues until the project is considered stable.
+## *please note* this package has been abandoned, please use the [original package](https://github.com/uxweb/sweet-alert) for identical functionality or [our replacement package](https://github.com/synergitech/laravel-alert) for more flexible functionality
 
 This package integrates Twig with the standard Laravel 5 view framework. The package is based on [Easy Sweet Alert Messages for Laravel](https://github.com/uxweb/sweet-alert) by [Uziel Bueno](https://github.com/uxweb) but has been modified and refactored for our requirements.
 
